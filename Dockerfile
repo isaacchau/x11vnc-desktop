@@ -11,7 +11,7 @@ FROM ubuntu:22.04
 LABEL maintainer Xiangmin Jiao <xmjiao@gmail.com>
 
 ARG DOCKER_LANG=en_US
-ARG DOCKER_TIMEZONE=America/New_York
+ARG DOCKER_TIMEZONE=Asia/Hong_Kong
 ARG X11VNC_VERSION=latest
 
 ENV LANG=$DOCKER_LANG.UTF-8 \
@@ -168,6 +168,24 @@ RUN mkdir -p $DOCKER_HOME/.config/mozilla && \
     chown -R $DOCKER_USER:$DOCKER_GROUP $DOCKER_HOME && \
     chmod -R a+r $DOCKER_HOME && \
     find $DOCKER_HOME -type d -exec chmod a+x {} \;
+
+
+# Installed the Citirx Workspace deb (need to download manually)
+RUN  apt-get update && \
+     apt-get upgrade -y  && \
+     debconf-set-selections << "icaclient app_protection/install_app_protection select no" && \
+     debconf-show icaclient 
+
+COPY *.deb /tmp
+RUN  DEBIAN_FRONTEND=noninteractive apt-get install /tmp/icaclient_23.3.0.32_amd64.deb -y && \
+     apt-get autoclean && \
+     apt-get autoremove && \
+     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+COPY *.pem /opt/Citrix/ICAClient/keystore/cacerts
+RUN  chmod 644 /opt/Citrix/ICAClient/keystore/cacerts/*.pem && \
+     /opt/Citrix/ICAClient/util/ctx_rehash 
+ 
 
 WORKDIR $DOCKER_HOME
 

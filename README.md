@@ -1,3 +1,6 @@
+ - Added Citrix Workspace
+ - Aim to workaround on using Citirx Workspace on my Pixelbook GO
+
 # Docker/Singularity Image for Ubuntu with X11 and VNC
 
 This repository offers a Docker/Singularity image for Ubuntu with X11 and VNC. It can be useful in delivering a unified environment for teaching programming classes, demonstrating graphical user interface, developing and debugging software programs (such as using `Visual Studio Code`), and visualizing simultion results on high-performance computing (HPC) platforms (such as using `ParaView`). It shares some similarity to [fcwu/docker-ubuntu-vnc-desktop](https://github.com/fcwu/docker-ubuntu-vnc-desktop), but with several enhancements on security and features, especially for software developers and HPC users:
